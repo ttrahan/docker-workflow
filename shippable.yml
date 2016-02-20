@@ -1,0 +1,12 @@
+language: nodejs
+
+build:
+  pre_ci_boot:
+    - docker-compose up
+  ci:
+    - docker-exec -it $(docker ps | grep "node1" | awk '{print $1}') \bin\bash
+    - node node_modules/.bin/mocha
+    - docker-exec -it $(docker ps | grep "node2" | awk '{print $1}') \bin\bash
+    - node node_modules/.bin/mocha
+    - docker-exec -it $(docker ps | grep "node3" | awk '{print $1}') \bin\bash
+    - node node_modules/.bin/mocha
